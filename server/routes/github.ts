@@ -58,57 +58,95 @@ export const handleGitHubCallback: RequestHandler = async (req, res) => {
 
 export const handleGetRepositories: RequestHandler = async (req, res) => {
   const authHeader = req.headers.authorization;
+  const { username } = req.query;
 
   if (!authHeader) {
     return res.status(401).json({ error: "Authorization header required" });
   }
 
   try {
-    // In a real implementation, fetch from GitHub API
-    // const response = await fetch('https://api.github.com/user/repos', {
-    //   headers: {
-    //     'Authorization': authHeader,
-    //     'Accept': 'application/vnd.github.v3+json',
-    //   },
-    // });
+    let repos: GitHubRepo[] = [];
 
-    // Mock repositories for demo
-    const mockRepos: GitHubRepo[] = [
-      {
-        id: 1,
-        name: "my-react-app",
-        full_name: "user/my-react-app",
-        description: "A modern React application with TypeScript",
-        language: "TypeScript",
-        private: false,
-      },
-      {
-        id: 2,
-        name: "python-api",
-        full_name: "user/python-api",
-        description: "REST API built with FastAPI",
-        language: "Python",
-        private: false,
-      },
-      {
-        id: 3,
-        name: "vue-dashboard",
-        full_name: "user/vue-dashboard",
-        description: "Admin dashboard with Vue.js",
-        language: "Vue",
-        private: true,
-      },
-      {
-        id: 4,
-        name: "node-microservice",
-        full_name: "user/node-microservice",
-        description: "Microservice architecture with Node.js",
-        language: "JavaScript",
-        private: false,
-      },
-    ];
+    if (username) {
+      // Try to fetch real repositories from GitHub API
+      try {
+        console.log(`🔍 Fetching repositories for user: ${username}`);
+        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=20`, {
+          headers: {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'TestGen-AI-App'
+          },
+        });
 
-    res.json(mockRepos);
+        if (response.ok) {
+          const githubRepos = await response.json();
+          repos = githubRepos.map((repo: any) => ({
+            id: repo.id,
+            name: repo.name,
+            full_name: repo.full_name,
+            description: repo.description || "No description available",
+            language: repo.language || "Unknown",
+            private: repo.private,
+          }));
+
+          console.log(`✅ Successfully fetched ${repos.length} repositories for ${username}`);
+        } else {
+          console.warn(`⚠️ GitHub API responded with ${response.status}, falling back to mock data`);
+          throw new Error('GitHub API error');
+        }
+      } catch (githubError) {
+        console.warn('Failed to fetch from GitHub API, using mock data:', githubError);
+        // Fallback to mock repositories if GitHub API fails
+        repos = [
+          {
+            id: 1,
+            name: "my-react-app",
+            full_name: `${username}/my-react-app`,
+            description: "A modern React application with TypeScript",
+            language: "TypeScript",
+            private: false,
+          },
+          {
+            id: 2,
+            name: "api-service",
+            full_name: `${username}/api-service`,
+            description: "REST API built with Node.js",
+            language: "JavaScript",
+            private: false,
+          },
+          {
+            id: 3,
+            name: "mobile-app",
+            full_name: `${username}/mobile-app`,
+            description: "React Native mobile application",
+            language: "TypeScript",
+            private: true,
+          },
+          {
+            id: 4,
+            name: "data-pipeline",
+            full_name: `${username}/data-pipeline`,
+            description: "Python data processing pipeline",
+            language: "Python",
+            private: false,
+          },
+        ];
+      }
+    } else {
+      // Default mock repositories if no username provided
+      repos = [
+        {
+          id: 1,
+          name: "sample-repo",
+          full_name: "user/sample-repo",
+          description: "Sample repository for testing",
+          language: "JavaScript",
+          private: false,
+        },
+      ];
+    }
+
+    res.json(repos);
   } catch (error) {
     console.error("Failed to fetch repositories:", error);
     res.status(500).json({ error: "Failed to fetch repositories" });
