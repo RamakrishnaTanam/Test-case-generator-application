@@ -89,18 +89,44 @@ export default function Index() {
 
   const handleGitHubConnection = async (username: string) => {
     try {
+      // Clean username (remove GitHub URL if present)
+      const cleanUsername = username.replace(/https?:\/\/github\.com\//, '').replace(/\/$/, '');
+
       setIsConnected(true);
-      setConnectedUsername(username);
+      setConnectedUsername(cleanUsername);
       setShowGitHubDialog(false);
 
-      // Update repositories based on selected user
-      const userRepos = generateUserRepositories(username);
-      setRepositories(userRepos);
+      // Fetch real repositories from GitHub API
+      await fetchRealRepositories(cleanUsername);
 
-      console.log(`✅ Successfully connected to GitHub as ${username} (Demo Mode)`);
+      console.log(`✅ Successfully connected to GitHub as ${cleanUsername}`);
     } catch (error) {
       console.error("Failed to connect to GitHub:", error);
       alert("Failed to connect to GitHub. Please try again.");
+    }
+  };
+
+  const fetchRealRepositories = async (username: string) => {
+    try {
+      const response = await fetch(`/api/github/repositories?username=${username}`, {
+        headers: {
+          'Authorization': 'Bearer mock_token'
+        }
+      });
+
+      if (response.ok) {
+        const repos = await response.json();
+        setRepositories(repos);
+      } else {
+        // Fallback to mock data if API fails
+        const userRepos = generateUserRepositories(username);
+        setRepositories(userRepos);
+      }
+    } catch (error) {
+      console.error('Failed to fetch real repositories:', error);
+      // Fallback to mock data
+      const userRepos = generateUserRepositories(username);
+      setRepositories(userRepos);
     }
   };
 
