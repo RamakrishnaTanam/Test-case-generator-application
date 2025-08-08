@@ -213,13 +213,19 @@ export default function Index() {
             if (!selectedRepo) return { ...file, content: "" };
             const [owner, repoName] = selectedRepo.full_name.split("/");
             const response = await fetch(
-              `/api/github/repos/${owner}/${repoName}/contents/${file.path}`,
+              `/api/github/repos/${owner}/${repoName}/contents/${encodeURIComponent(file.path)}`,
               {
                 headers: {
                   Authorization: "Bearer mock_token",
                 },
               },
             );
+
+            if (!response.ok) {
+              console.warn(`Failed to fetch ${file.path}: ${response.status} ${response.statusText}`);
+              return { ...file, content: "" };
+            }
+
             const fileData = await response.json();
             const content = fileData.content ? atob(fileData.content) : "";
             return { ...file, content };
@@ -286,13 +292,19 @@ export default function Index() {
               return { ...file, content: "", language: file.language };
             const [owner, repoName] = selectedRepo.full_name.split("/");
             const response = await fetch(
-              `/api/github/repos/${owner}/${repoName}/contents/${file.path}`,
+              `/api/github/repos/${owner}/${repoName}/contents/${encodeURIComponent(file.path)}`,
               {
                 headers: {
                   Authorization: "Bearer mock_token",
                 },
               },
             );
+
+            if (!response.ok) {
+              console.warn(`Failed to fetch ${file.path}: ${response.status} ${response.statusText}`);
+              return { ...file, content: "", language: file.language || "JavaScript" };
+            }
+
             const fileData = await response.json();
             const content = fileData.content ? atob(fileData.content) : "";
             return {
