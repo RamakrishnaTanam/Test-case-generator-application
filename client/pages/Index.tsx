@@ -601,37 +601,44 @@ describe('${summary.title}', () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid gap-4">
-                      {repositories.map((repo) => (
-                        <Card
-                          key={repo.id}
-                          className={`cursor-pointer transition-colors hover:bg-muted/50 ${
-                            selectedRepo?.id === repo.id
-                              ? "ring-2 ring-primary"
-                              : ""
-                          }`}
-                          onClick={() => selectRepository(repo)}
-                        >
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between">
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                  <h3 className="font-semibold">{repo.name}</h3>
-                                  {repo.private && (
-                                    <Badge variant="secondary">Private</Badge>
-                                  )}
+                    {isLoadingRepos ? (
+                      <div className="flex items-center justify-center py-8">
+                        <Loader2 className="h-6 w-6 animate-spin mr-2" />
+                        <span className="text-muted-foreground">Loading repositories...</span>
+                      </div>
+                    ) : (
+                      <div className="grid gap-4">
+                        {repositories.map((repo) => (
+                          <Card
+                            key={repo.id}
+                            className={`cursor-pointer transition-colors hover:bg-muted/50 ${
+                              selectedRepo?.id === repo.id
+                                ? "ring-2 ring-primary"
+                                : ""
+                            }`}
+                            onClick={() => selectRepository(repo)}
+                          >
+                            <CardContent className="p-4">
+                              <div className="flex items-center justify-between">
+                                <div className="space-y-1">
+                                  <div className="flex items-center gap-2">
+                                    <h3 className="font-semibold">{repo.name}</h3>
+                                    {repo.private && (
+                                      <Badge variant="secondary">Private</Badge>
+                                    )}
+                                  </div>
+                                  <p className="text-sm text-muted-foreground">
+                                    {repo.description}
+                                  </p>
+                                  <Badge variant="outline">{repo.language}</Badge>
                                 </div>
-                                <p className="text-sm text-muted-foreground">
-                                  {repo.description}
-                                </p>
-                                <Badge variant="outline">{repo.language}</Badge>
+                                <FileCode className="h-5 w-5 text-muted-foreground" />
                               </div>
-                              <FileCode className="h-5 w-5 text-muted-foreground" />
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
