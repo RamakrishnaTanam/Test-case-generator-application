@@ -767,7 +767,11 @@ describe('${summary.title}', () => {
 
                     <div className="space-y-2">
                       <Button
-                        onClick={generateTestSummaries}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          console.log('🎯 Generate button clicked!');
+                          generateTestSummaries();
+                        }}
                         disabled={selectedFiles.length === 0 || isGenerating}
                         className="w-full"
                       >
