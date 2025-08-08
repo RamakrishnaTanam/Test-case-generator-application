@@ -483,10 +483,19 @@ describe('${summary.title}', () => {
                   </div>
                 </div>
 
-                <Button onClick={connectToGitHub} size="lg" className="w-full">
-                  <Github className="mr-2 h-5 w-5" />
-                  Connect to GitHub
-                </Button>
+                <div className="space-y-4">
+                  <Button onClick={connectToGitHub} size="lg" className="w-full">
+                    <Github className="mr-2 h-5 w-5" />
+                    Connect to GitHub (Demo)
+                  </Button>
+
+                  <div className="text-center text-sm text-muted-foreground p-4 bg-muted/50 rounded-lg">
+                    <p className="font-semibold">📚 Demo Mode</p>
+                    <p className="mt-1">
+                      This demo uses mock repositories and files. In production, you would connect your real GitHub account to access your repositories.
+                    </p>
+                  </div>
+                </div>
               </div>
             </Card>
           </div>
