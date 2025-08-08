@@ -173,9 +173,10 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       });
     }
 
+    console.log('✅ Generated', summaries.length, 'test summaries');
     res.json({ summaries });
   } catch (error) {
-    console.error("Failed to generate test summaries:", error);
+    console.error("❌ Failed to generate test summaries:", error);
     res.status(500).json({ error: "Failed to generate test summaries" });
   }
 };
