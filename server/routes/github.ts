@@ -272,7 +272,7 @@ export const mockFunction = () => {
     console.error(`❌ Failed to fetch file content for ${path}:`, error);
     res.status(500).json({
       error: "Failed to fetch file content",
-      details: error instanceof Error ? error.message : "Unknown error"
+      details: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
