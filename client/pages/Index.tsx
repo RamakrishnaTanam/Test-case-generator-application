@@ -174,12 +174,15 @@ export default function Index() {
   };
 
   const selectRepository = async (repo: GitHubRepo) => {
+    console.log('📂 Selecting repository:', repo.name, repo.full_name);
     setSelectedRepo(repo);
     setSelectedFiles([]);
     setTestSummaries([]);
 
     try {
       const [owner, repoName] = repo.full_name.split("/");
+      console.log('🔍 Fetching files for:', owner, '/', repoName);
+
       const response = await fetch(
         `/api/github/repos/${owner}/${repoName}/contents`,
         {
@@ -188,7 +191,13 @@ export default function Index() {
           },
         },
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const fetchedFiles = await response.json();
+      console.log('📁 Fetched files:', fetchedFiles);
 
       const processedFiles: CodeFile[] = fetchedFiles.map((file: any) => ({
         name: file.name,
@@ -197,9 +206,10 @@ export default function Index() {
         language: getLanguageFromPath(file.path),
       }));
 
+      console.log('✅ Processed files:', processedFiles);
       setFiles(processedFiles);
     } catch (error) {
-      console.error("Failed to fetch repository files:", error);
+      console.error("❌ Failed to fetch repository files:", error);
       // Fallback to mock data
       const mockFiles: CodeFile[] = [
         { name: "src", path: "src", type: "dir" },
