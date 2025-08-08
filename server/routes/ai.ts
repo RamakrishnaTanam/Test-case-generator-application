@@ -5,7 +5,7 @@ interface TestCaseSummary {
   title: string;
   description: string;
   framework: string;
-  complexity: 'Low' | 'Medium' | 'High';
+  complexity: "Low" | "Medium" | "High";
   estimatedTime: string;
   files: string[];
 }
@@ -21,14 +21,14 @@ interface GenerateTestCodeRequest {
 
 export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
   const { files } = req.body;
-  
+
   if (!files || !Array.isArray(files) || files.length === 0) {
     return res.status(400).json({ error: "Files array is required" });
   }
 
   try {
     // Simulate AI processing time
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     // In a real implementation, this would:
     // 1. Analyze the provided code files
@@ -38,45 +38,60 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
     const summaries: TestCaseSummary[] = [];
 
     // Analyze file types and generate appropriate test summaries
-    const hasReactComponents = files.some(f => 
-      f.path.includes('.tsx') || f.path.includes('.jsx') || 
-      f.content?.includes('React') || f.content?.includes('component')
-    );
-    
-    const hasApiCode = files.some(f => 
-      f.path.includes('api') || f.path.includes('service') ||
-      f.content?.includes('fetch') || f.content?.includes('axios')
-    );
-    
-    const hasUtilityFunctions = files.some(f => 
-      f.path.includes('utils') || f.path.includes('helpers') ||
-      f.path.includes('lib')
+    const hasReactComponents = files.some(
+      (f) =>
+        f.path.includes(".tsx") ||
+        f.path.includes(".jsx") ||
+        f.content?.includes("React") ||
+        f.content?.includes("component"),
     );
 
-    const hasHooks = files.some(f => 
-      f.path.includes('hooks') || f.path.includes('use') ||
-      f.content?.includes('useState') || f.content?.includes('useEffect')
+    const hasApiCode = files.some(
+      (f) =>
+        f.path.includes("api") ||
+        f.path.includes("service") ||
+        f.content?.includes("fetch") ||
+        f.content?.includes("axios"),
+    );
+
+    const hasUtilityFunctions = files.some(
+      (f) =>
+        f.path.includes("utils") ||
+        f.path.includes("helpers") ||
+        f.path.includes("lib"),
+    );
+
+    const hasHooks = files.some(
+      (f) =>
+        f.path.includes("hooks") ||
+        f.path.includes("use") ||
+        f.content?.includes("useState") ||
+        f.content?.includes("useEffect"),
     );
 
     if (hasReactComponents) {
       summaries.push({
         id: "react-components",
         title: "React Component Tests",
-        description: "Comprehensive tests for React components including rendering, props validation, user interactions, and accessibility",
+        description:
+          "Comprehensive tests for React components including rendering, props validation, user interactions, and accessibility",
         framework: "Jest + React Testing Library",
         complexity: "Medium",
         estimatedTime: "25 min",
-        files: files.filter(f => f.path.includes('.tsx') || f.path.includes('.jsx')).map(f => f.path)
+        files: files
+          .filter((f) => f.path.includes(".tsx") || f.path.includes(".jsx"))
+          .map((f) => f.path),
       });
 
       summaries.push({
         id: "component-integration",
-        title: "Component Integration Tests", 
-        description: "Tests for component interactions, state management, and data flow between parent and child components",
+        title: "Component Integration Tests",
+        description:
+          "Tests for component interactions, state management, and data flow between parent and child components",
         framework: "Jest + React Testing Library",
         complexity: "High",
         estimatedTime: "40 min",
-        files: files.map(f => f.path)
+        files: files.map((f) => f.path),
       });
     }
 
@@ -84,11 +99,14 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       summaries.push({
         id: "api-tests",
         title: "API Integration Tests",
-        description: "Mock API calls, test error handling, data transformation, and response validation",
+        description:
+          "Mock API calls, test error handling, data transformation, and response validation",
         framework: "Jest + MSW (Mock Service Worker)",
         complexity: "Medium",
         estimatedTime: "30 min",
-        files: files.filter(f => f.path.includes('api') || f.path.includes('service')).map(f => f.path)
+        files: files
+          .filter((f) => f.path.includes("api") || f.path.includes("service"))
+          .map((f) => f.path),
       });
     }
 
@@ -96,11 +114,14 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       summaries.push({
         id: "utility-tests",
         title: "Utility Function Tests",
-        description: "Unit tests for helper functions, data validators, formatters, and pure functions",
+        description:
+          "Unit tests for helper functions, data validators, formatters, and pure functions",
         framework: "Jest",
         complexity: "Low",
         estimatedTime: "15 min",
-        files: files.filter(f => f.path.includes('utils') || f.path.includes('helpers')).map(f => f.path)
+        files: files
+          .filter((f) => f.path.includes("utils") || f.path.includes("helpers"))
+          .map((f) => f.path),
       });
     }
 
@@ -108,11 +129,14 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       summaries.push({
         id: "hooks-tests",
         title: "Custom Hook Tests",
-        description: "Test custom React hooks with renderHook, state changes, and side effects",
+        description:
+          "Test custom React hooks with renderHook, state changes, and side effects",
         framework: "Jest + @testing-library/react-hooks",
         complexity: "Medium",
         estimatedTime: "20 min",
-        files: files.filter(f => f.path.includes('hooks') || f.path.includes('use')).map(f => f.path)
+        files: files
+          .filter((f) => f.path.includes("hooks") || f.path.includes("use"))
+          .map((f) => f.path),
       });
     }
 
@@ -121,11 +145,12 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       summaries.push({
         id: "e2e-tests",
         title: "End-to-End User Flow Tests",
-        description: "Complete user journey testing from authentication to key feature interactions",
+        description:
+          "Complete user journey testing from authentication to key feature interactions",
         framework: "Playwright",
         complexity: "High",
         estimatedTime: "50 min",
-        files: files.map(f => f.path)
+        files: files.map((f) => f.path),
       });
     }
 
@@ -134,11 +159,12 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       summaries.push({
         id: "performance-tests",
         title: "Performance & Load Tests",
-        description: "Component rendering performance, memory leaks, and optimization validation",
+        description:
+          "Component rendering performance, memory leaks, and optimization validation",
         framework: "Jest + React Testing Library + @testing-library/jest-dom",
         complexity: "High",
         estimatedTime: "35 min",
-        files: files.map(f => f.path)
+        files: files.map((f) => f.path),
       });
     }
 
@@ -151,14 +177,14 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
 
 export const handleGenerateTestCode: RequestHandler = async (req, res) => {
   const { summaryId, files } = req.body as GenerateTestCodeRequest;
-  
+
   if (!summaryId || !files || !Array.isArray(files)) {
     return res.status(400).json({ error: "Summary ID and files are required" });
   }
 
   try {
     // Simulate AI code generation time
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     let generatedCode = "";
 
@@ -189,10 +215,10 @@ export const handleGenerateTestCode: RequestHandler = async (req, res) => {
         generatedCode = generateGenericTests(files);
     }
 
-    res.json({ 
+    res.json({
       code: generatedCode,
       framework: getFrameworkForSummary(summaryId),
-      filename: getFilenameForSummary(summaryId, files)
+      filename: getFilenameForSummary(summaryId, files),
     });
   } catch (error) {
     console.error("Failed to generate test code:", error);
@@ -201,12 +227,15 @@ export const handleGenerateTestCode: RequestHandler = async (req, res) => {
 };
 
 function generateReactComponentTests(files: any[]): string {
-  const componentFile = files.find(f => f.path.includes('UserProfile') || f.path.includes('.tsx'));
-  const componentName = componentFile?.path.split('/').pop()?.replace('.tsx', '') || 'Component';
-  
+  const componentFile = files.find(
+    (f) => f.path.includes("UserProfile") || f.path.includes(".tsx"),
+  );
+  const componentName =
+    componentFile?.path.split("/").pop()?.replace(".tsx", "") || "Component";
+
   return `import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ${componentName} } from '../${componentFile?.path || 'Component'}';
+import { ${componentName} } from '../${componentFile?.path || "Component"}';
 
 describe('${componentName}', () => {
   const mockProps = {
@@ -789,18 +818,18 @@ describe('Generic Tests', () => {
 
 function getFrameworkForSummary(summaryId: string): string {
   const frameworks = {
-    'react-components': 'Jest + React Testing Library',
-    'api-tests': 'Jest + MSW',
-    'utility-tests': 'Jest',
-    'hooks-tests': 'Jest + @testing-library/react-hooks',
-    'e2e-tests': 'Playwright',
-    'component-integration': 'Jest + React Testing Library',
-    'performance-tests': 'Jest + React Testing Library'
+    "react-components": "Jest + React Testing Library",
+    "api-tests": "Jest + MSW",
+    "utility-tests": "Jest",
+    "hooks-tests": "Jest + @testing-library/react-hooks",
+    "e2e-tests": "Playwright",
+    "component-integration": "Jest + React Testing Library",
+    "performance-tests": "Jest + React Testing Library",
   };
-  return frameworks[summaryId] || 'Jest';
+  return frameworks[summaryId] || "Jest";
 }
 
 function getFilenameForSummary(summaryId: string, files: any[]): string {
-  const baseName = summaryId.replace(/-/g, '');
+  const baseName = summaryId.replace(/-/g, "");
   return `${baseName}.test.tsx`;
 }

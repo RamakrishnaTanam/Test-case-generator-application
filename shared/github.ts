@@ -10,7 +10,7 @@ export interface GitHubRepo {
 export interface GitHubFile {
   name: string;
   path: string;
-  type: 'file' | 'dir';
+  type: "file" | "dir";
   download_url?: string;
   content?: string;
 }
@@ -29,7 +29,7 @@ export interface PullRequest {
   title: string;
   body: string;
   html_url: string;
-  state: 'open' | 'closed' | 'merged';
+  state: "open" | "closed" | "merged";
   created_at: string;
 }
 

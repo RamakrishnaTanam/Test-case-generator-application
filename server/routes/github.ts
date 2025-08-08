@@ -12,7 +12,7 @@ interface GitHubRepo {
 interface GitHubFile {
   name: string;
   path: string;
-  type: 'file' | 'dir';
+  type: "file" | "dir";
   download_url?: string;
 }
 
@@ -24,7 +24,7 @@ export const handleGitHubAuth: RequestHandler = (req, res) => {
 
 export const handleGitHubCallback: RequestHandler = async (req, res) => {
   const { code } = req.query;
-  
+
   if (!code) {
     return res.status(400).json({ error: "Authorization code required" });
   }
@@ -45,10 +45,10 @@ export const handleGitHubCallback: RequestHandler = async (req, res) => {
     // });
 
     // For demo purposes, return mock success
-    res.json({ 
+    res.json({
       access_token: "mock_token",
       token_type: "bearer",
-      scope: "repo"
+      scope: "repo",
     });
   } catch (error) {
     console.error("GitHub OAuth error:", error);
@@ -58,7 +58,7 @@ export const handleGitHubCallback: RequestHandler = async (req, res) => {
 
 export const handleGetRepositories: RequestHandler = async (req, res) => {
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader) {
     return res.status(401).json({ error: "Authorization header required" });
   }
@@ -80,15 +80,15 @@ export const handleGetRepositories: RequestHandler = async (req, res) => {
         full_name: "user/my-react-app",
         description: "A modern React application with TypeScript",
         language: "TypeScript",
-        private: false
+        private: false,
       },
       {
         id: 2,
         name: "python-api",
-        full_name: "user/python-api", 
+        full_name: "user/python-api",
         description: "REST API built with FastAPI",
         language: "Python",
-        private: false
+        private: false,
       },
       {
         id: 3,
@@ -96,7 +96,7 @@ export const handleGetRepositories: RequestHandler = async (req, res) => {
         full_name: "user/vue-dashboard",
         description: "Admin dashboard with Vue.js",
         language: "Vue",
-        private: true
+        private: true,
       },
       {
         id: 4,
@@ -104,8 +104,8 @@ export const handleGetRepositories: RequestHandler = async (req, res) => {
         full_name: "user/node-microservice",
         description: "Microservice architecture with Node.js",
         language: "JavaScript",
-        private: false
-      }
+        private: false,
+      },
     ];
 
     res.json(mockRepos);
@@ -118,7 +118,7 @@ export const handleGetRepositories: RequestHandler = async (req, res) => {
 export const handleGetRepositoryFiles: RequestHandler = async (req, res) => {
   const { owner, repo } = req.params;
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader) {
     return res.status(401).json({ error: "Authorization header required" });
   }
@@ -136,7 +136,11 @@ export const handleGetRepositoryFiles: RequestHandler = async (req, res) => {
     const mockFiles: GitHubFile[] = [
       { name: "src", path: "src", type: "dir" },
       { name: "components", path: "src/components", type: "dir" },
-      { name: "UserProfile.tsx", path: "src/components/UserProfile.tsx", type: "file" },
+      {
+        name: "UserProfile.tsx",
+        path: "src/components/UserProfile.tsx",
+        type: "file",
+      },
       { name: "Button.tsx", path: "src/components/Button.tsx", type: "file" },
       { name: "Modal.tsx", path: "src/components/Modal.tsx", type: "file" },
       { name: "utils", path: "src/utils", type: "dir" },
@@ -149,7 +153,7 @@ export const handleGetRepositoryFiles: RequestHandler = async (req, res) => {
       { name: "App.tsx", path: "src/App.tsx", type: "file" },
       { name: "index.tsx", path: "src/index.tsx", type: "file" },
       { name: "package.json", path: "package.json", type: "file" },
-      { name: "README.md", path: "README.md", type: "file" }
+      { name: "README.md", path: "README.md", type: "file" },
     ];
 
     res.json(mockFiles);
@@ -162,7 +166,7 @@ export const handleGetRepositoryFiles: RequestHandler = async (req, res) => {
 export const handleGetFileContent: RequestHandler = async (req, res) => {
   const { owner, repo, path } = req.params;
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader) {
     return res.status(401).json({ error: "Authorization header required" });
   }
@@ -178,7 +182,7 @@ export const handleGetFileContent: RequestHandler = async (req, res) => {
 
     // Mock file content for demo
     let mockContent = "";
-    
+
     if (path?.includes("UserProfile.tsx")) {
       mockContent = `import React from 'react';
 
@@ -214,10 +218,10 @@ export const mockFunction = () => {
     }
 
     res.json({
-      name: path?.split('/').pop(),
+      name: path?.split("/").pop(),
       path: path,
-      content: Buffer.from(mockContent).toString('base64'),
-      encoding: 'base64'
+      content: Buffer.from(mockContent).toString("base64"),
+      encoding: "base64",
     });
   } catch (error) {
     console.error("Failed to fetch file content:", error);
@@ -229,7 +233,7 @@ export const handleCreatePullRequest: RequestHandler = async (req, res) => {
   const { owner, repo } = req.params;
   const { title, body, head, base, files } = req.body;
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader) {
     return res.status(401).json({ error: "Authorization header required" });
   }
@@ -247,8 +251,8 @@ export const handleCreatePullRequest: RequestHandler = async (req, res) => {
       title: title,
       body: body,
       html_url: `https://github.com/${owner}/${repo}/pull/${Math.floor(Math.random() * 1000) + 1}`,
-      state: 'open',
-      created_at: new Date().toISOString()
+      state: "open",
+      created_at: new Date().toISOString(),
     });
   } catch (error) {
     console.error("Failed to create pull request:", error);

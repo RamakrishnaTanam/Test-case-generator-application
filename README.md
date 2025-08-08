@@ -19,29 +19,33 @@ A modern web application that integrates with GitHub to automatically generate c
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - GitHub account for repository integration
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <your-repo-url>
    cd testgen-ai
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Configure your `.env` file:
+
    ```env
    GITHUB_CLIENT_ID=your_github_client_id
    GITHUB_CLIENT_SECRET=your_github_client_secret
@@ -49,6 +53,7 @@ A modern web application that integrates with GitHub to automatically generate c
    ```
 
 4. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -59,6 +64,7 @@ A modern web application that integrates with GitHub to automatically generate c
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18** - Modern React with hooks and context
 - **TypeScript** - Type-safe development
 - **Vite** - Fast build tool and dev server
@@ -68,6 +74,7 @@ A modern web application that integrates with GitHub to automatically generate c
 - **React Router** - Client-side routing
 
 ### Backend
+
 - **Node.js** - JavaScript runtime
 - **Express** - Fast, unopinionated web framework
 - **TypeScript** - Type-safe server development
@@ -75,6 +82,7 @@ A modern web application that integrates with GitHub to automatically generate c
 - **AI Integration** - OpenAI, Google Gemini, or Anthropic
 
 ### Development
+
 - **ESLint & Prettier** - Code linting and formatting
 - **Vitest** - Fast unit testing framework
 - **Docker** - Containerization support
@@ -82,41 +90,46 @@ A modern web application that integrates with GitHub to automatically generate c
 ## 📖 Usage Guide
 
 ### 1. Connect to GitHub
+
 - Click "Connect to GitHub" on the homepage
 - Authorize the application to access your repositories
 - Your repositories will be automatically loaded
 
 ### 2. Select Repository & Files
+
 - Choose a repository from the list
 - Browse the file structure
 - Select files you want to generate tests for (components, utilities, APIs, etc.)
 
 ### 3. Generate Test Summaries
+
 - Click "Generate Test Case Summaries"
 - AI analyzes your selected files
 - Review the suggested test cases with complexity estimates
 
 ### 4. Generate Test Code
+
 - Select a test case summary
-- Click "Generate Code" 
+- Click "Generate Code"
 - Review the generated test code
 - Copy or create a pull request
 
 ### 5. Create Pull Request (Optional)
+
 - Click "Create Pull Request"
 - Automatically creates a PR with your generated tests
 - Review and merge when ready
 
 ## 🧪 Supported Test Frameworks
 
-| Framework | Languages | Description |
-|-----------|-----------|-------------|
-| Jest + React Testing Library | TypeScript, JavaScript | React component testing |
-| Jest + MSW | TypeScript, JavaScript | API mocking and testing |
-| Playwright | TypeScript, JavaScript | End-to-end testing |
-| PyTest | Python | Python unit and integration testing |
-| JUnit | Java | Java unit testing |
-| Go Testing | Go | Built-in Go testing |
+| Framework                    | Languages              | Description                         |
+| ---------------------------- | ---------------------- | ----------------------------------- |
+| Jest + React Testing Library | TypeScript, JavaScript | React component testing             |
+| Jest + MSW                   | TypeScript, JavaScript | API mocking and testing             |
+| Playwright                   | TypeScript, JavaScript | End-to-end testing                  |
+| PyTest                       | Python                 | Python unit and integration testing |
+| JUnit                        | Java                   | Java unit testing                   |
+| Go Testing                   | Go                     | Built-in Go testing                 |
 
 ## 🔧 Configuration
 
@@ -134,16 +147,19 @@ A modern web application that integrates with GitHub to automatically generate c
 Choose one of the following AI services:
 
 #### OpenAI
+
 ```env
 OPENAI_API_KEY=your_openai_api_key
 ```
 
 #### Google Gemini
+
 ```env
 GOOGLE_API_KEY=your_gemini_api_key
 ```
 
 #### Anthropic Claude
+
 ```env
 ANTHROPIC_API_KEY=your_claude_api_key
 ```
@@ -170,17 +186,20 @@ ANTHROPIC_API_KEY=your_claude_api_key
 ## 🚀 Deployment
 
 ### Development
+
 ```bash
 npm run dev
 ```
 
 ### Production Build
+
 ```bash
 npm run build
 npm run start
 ```
 
 ### Docker Deployment
+
 ```bash
 docker build -t testgen-ai .
 docker run -p 8080:8080 testgen-ai
@@ -223,6 +242,7 @@ If you have any questions or run into issues:
 ## 🏆 Credits
 
 Built with ❤️ using:
+
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [TailwindCSS](https://tailwindcss.com/)

@@ -3,7 +3,7 @@ export interface TestCaseSummary {
   title: string;
   description: string;
   framework: string;
-  complexity: 'Low' | 'Medium' | 'High';
+  complexity: "Low" | "Medium" | "High";
   estimatedTime: string;
   files?: string[];
 }
@@ -11,7 +11,7 @@ export interface TestCaseSummary {
 export interface CodeFile {
   name: string;
   path: string;
-  type: 'file' | 'dir';
+  type: "file" | "dir";
   language?: string;
   content?: string;
   selected?: boolean;
@@ -46,45 +46,47 @@ export interface TestFramework {
 
 export const SUPPORTED_FRAMEWORKS: TestFramework[] = [
   {
-    id: 'jest-rtl',
-    name: 'Jest + React Testing Library',
-    description: 'Unit and integration testing for React components',
-    languages: ['JavaScript', 'TypeScript'],
-    setup: ['npm install --save-dev jest @testing-library/react @testing-library/jest-dom']
+    id: "jest-rtl",
+    name: "Jest + React Testing Library",
+    description: "Unit and integration testing for React components",
+    languages: ["JavaScript", "TypeScript"],
+    setup: [
+      "npm install --save-dev jest @testing-library/react @testing-library/jest-dom",
+    ],
   },
   {
-    id: 'jest-msw',
-    name: 'Jest + MSW',
-    description: 'API testing with mock service workers',
-    languages: ['JavaScript', 'TypeScript'],
-    setup: ['npm install --save-dev jest msw']
+    id: "jest-msw",
+    name: "Jest + MSW",
+    description: "API testing with mock service workers",
+    languages: ["JavaScript", "TypeScript"],
+    setup: ["npm install --save-dev jest msw"],
   },
   {
-    id: 'playwright',
-    name: 'Playwright',
-    description: 'End-to-end testing across all browsers',
-    languages: ['JavaScript', 'TypeScript'],
-    setup: ['npm install --save-dev @playwright/test']
+    id: "playwright",
+    name: "Playwright",
+    description: "End-to-end testing across all browsers",
+    languages: ["JavaScript", "TypeScript"],
+    setup: ["npm install --save-dev @playwright/test"],
   },
   {
-    id: 'pytest',
-    name: 'PyTest',
-    description: 'Python testing framework',
-    languages: ['Python'],
-    setup: ['pip install pytest pytest-mock requests-mock']
+    id: "pytest",
+    name: "PyTest",
+    description: "Python testing framework",
+    languages: ["Python"],
+    setup: ["pip install pytest pytest-mock requests-mock"],
   },
   {
-    id: 'junit',
-    name: 'JUnit',
-    description: 'Java unit testing framework',
-    languages: ['Java'],
-    setup: ['Add JUnit 5 dependency to pom.xml or build.gradle']
+    id: "junit",
+    name: "JUnit",
+    description: "Java unit testing framework",
+    languages: ["Java"],
+    setup: ["Add JUnit 5 dependency to pom.xml or build.gradle"],
   },
   {
-    id: 'go-test',
-    name: 'Go Testing',
-    description: 'Built-in Go testing package',
-    languages: ['Go'],
-    setup: ['No additional setup required - uses built-in testing package']
-  }
+    id: "go-test",
+    name: "Go Testing",
+    description: "Built-in Go testing package",
+    languages: ["Go"],
+    setup: ["No additional setup required - uses built-in testing package"],
+  },
 ];
