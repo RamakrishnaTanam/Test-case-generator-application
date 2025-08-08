@@ -890,7 +890,7 @@ describe('${summary.title}', () => {
               </label>
               <Input
                 id="custom-username"
-                placeholder="Enter your GitHub username"
+                placeholder="Enter your GitHub username or URL"
                 value={customUsername}
                 onChange={(e) => setCustomUsername(e.target.value)}
               />
