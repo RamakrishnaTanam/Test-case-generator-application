@@ -473,9 +473,6 @@ describe('${summary.title}', () => {
                   <CheckCircle className="h-4 w-4" />
                   Connected as @{connectedUsername}
                 </Badge>
-                <Badge variant="outline" className="text-xs">
-                  Demo Mode
-                </Badge>
               </div>
             )}
           </div>
@@ -534,17 +531,9 @@ describe('${summary.title}', () => {
                     className="w-full"
                   >
                     <Github className="mr-2 h-5 w-5" />
-                    Connect to GitHub (Demo)
+                    Connect to GitHub
                   </Button>
 
-                  <div className="text-center text-sm text-muted-foreground p-4 bg-muted/50 rounded-lg">
-                    <p className="font-semibold">📚 Demo Mode</p>
-                    <p className="mt-1">
-                      This demo uses mock repositories and files. In production,
-                      you would connect your real GitHub account to access your
-                      repositories.
-                    </p>
-                  </div>
                 </div>
               </div>
             </Card>
@@ -839,7 +828,7 @@ describe('${summary.title}', () => {
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-3">
-              <h4 className="text-sm font-medium">Available Accounts (Demo)</h4>
+              <h4 className="text-sm font-medium">Select Account</h4>
               <div className="grid gap-2">
                 {mockGitHubUsers.map((user) => (
                   <Button
@@ -906,9 +895,6 @@ describe('${summary.title}', () => {
               </Button>
             </div>
 
-            <div className="text-xs text-center text-muted-foreground p-2 bg-muted/50 rounded">
-              🚀 Demo Mode: This simulates GitHub OAuth. In production, you'll be redirected to GitHub for authentication.
-            </div>
           </div>
         </DialogContent>
       </Dialog>
