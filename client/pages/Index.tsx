@@ -91,9 +91,18 @@ export default function Index() {
     }
   };
 
-  const connectToGitHub = () => {
-    // In a real app, this would initiate OAuth flow
-    setIsConnected(true);
+  const connectToGitHub = async () => {
+    try {
+      // In a real app, this would initiate OAuth flow
+      // For demo purposes, we simulate the connection
+      setIsConnected(true);
+
+      // Show success message
+      console.log("✅ Successfully connected to GitHub (Demo Mode)");
+    } catch (error) {
+      console.error("Failed to connect to GitHub:", error);
+      alert("Failed to connect to GitHub. Please try again.");
+    }
   };
 
   const selectRepository = async (repo: GitHubRepo) => {
