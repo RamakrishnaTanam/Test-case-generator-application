@@ -243,6 +243,22 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       });
     }
 
+    // Fallback: if no specific patterns matched, generate a general test suite
+    if (summaries.length === 0) {
+      const fileExtensions = files.map(f => f.path.split('.').pop()).filter(Boolean);
+      const uniqueExtensions = [...new Set(fileExtensions)];
+
+      summaries.push({
+        id: "general-tests",
+        title: "General Test Suite",
+        description: `Basic test cases for ${uniqueExtensions.join(', ')} files including functionality and edge cases`,
+        framework: uniqueExtensions.includes('py') ? "PyTest" : "Jest",
+        complexity: "Medium",
+        estimatedTime: "20 min",
+        files: files.map((f) => f.path),
+      });
+    }
+
     console.log('✅ Generated', summaries.length, 'test summaries');
     res.json({ summaries });
   } catch (error) {
