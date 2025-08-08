@@ -37,7 +37,7 @@ export function createServer() {
   app.get("/api/github/repositories", handleGetRepositories);
   app.get("/api/github/repos/:owner/:repo/contents", handleGetRepositoryFiles);
   app.get(
-    "/api/github/repos/:owner/:repo/contents/:path",
+    "/api/github/repos/:owner/:repo/contents/:path(*)",
     handleGetFileContent,
   );
   app.post("/api/github/repos/:owner/:repo/pulls", handleCreatePullRequest);
