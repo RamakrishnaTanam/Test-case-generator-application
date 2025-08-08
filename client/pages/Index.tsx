@@ -90,6 +90,7 @@ export default function Index() {
   const handleGitHubConnection = async (username: string) => {
     try {
       setIsConnected(true);
+      setConnectedUsername(username);
       setShowGitHubDialog(false);
 
       // Update repositories based on selected user
