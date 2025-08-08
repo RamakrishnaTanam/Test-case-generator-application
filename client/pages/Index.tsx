@@ -278,7 +278,14 @@ export default function Index() {
   };
 
   const generateTestSummaries = async () => {
-    if (selectedFiles.length === 0) return;
+    console.log('🚀 Generate Test Summaries clicked!');
+    console.log('📁 Selected files:', selectedFiles);
+
+    if (selectedFiles.length === 0) {
+      console.warn('❌ No files selected');
+      alert('Please select at least one file to generate test cases.');
+      return;
+    }
 
     setIsGenerating(true);
 
