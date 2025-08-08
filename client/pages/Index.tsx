@@ -69,6 +69,9 @@ export default function Index() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedCode, setGeneratedCode] = useState<string>("");
   const [showCodeDialog, setShowCodeDialog] = useState(false);
+  const [showGitHubDialog, setShowGitHubDialog] = useState(false);
+  const [selectedGitHubUser, setSelectedGitHubUser] = useState<string>("");
+  const [customUsername, setCustomUsername] = useState<string>("");
 
   // Initialize repositories on connection
   useEffect(() => {
