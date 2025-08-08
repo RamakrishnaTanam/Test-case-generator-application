@@ -74,6 +74,30 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
         f.content?.includes("useEffect"),
     );
 
+    const hasPythonFiles = files.some(
+      (f) =>
+        f.path.includes(".py") ||
+        f.content?.includes("import flask") ||
+        f.content?.includes("from flask") ||
+        f.content?.includes("Flask("),
+    );
+
+    const hasFlaskApp = files.some(
+      (f) =>
+        f.path.includes("app.py") ||
+        f.content?.includes("Flask(") ||
+        f.content?.includes("@app.route") ||
+        f.content?.includes("flask"),
+    );
+
+    const hasPythonModels = files.some(
+      (f) =>
+        f.path.includes("models") ||
+        f.path.includes("model.py") ||
+        f.content?.includes("class") ||
+        f.content?.includes("def __init__"),
+    );
+
     if (hasReactComponents) {
       summaries.push({
         id: "react-components",
