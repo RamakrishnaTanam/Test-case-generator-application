@@ -340,28 +340,69 @@ export default function Index() {
       }
     } catch (error) {
       console.error("Failed to generate test summaries:", error);
-      // Fallback to mock data
-      const mockSummaries: TestCaseSummary[] = [
-        {
-          id: "1",
-          title: "Component Rendering Tests",
-          description:
-            "Test suite for React component rendering, props handling, and basic interactions",
-          framework: "Jest + React Testing Library",
+
+      // Generate fallback summaries based on selected files
+      const fallbackSummaries: TestCaseSummary[] = [];
+
+      selectedFiles.forEach((file, index) => {
+        const fileName = file.name;
+        const extension = fileName.split('.').pop()?.toLowerCase();
+
+        if (extension === 'ts' || extension === 'js') {
+          if (fileName.includes('validation') || fileName.includes('utils') || fileName.includes('helper')) {
+            fallbackSummaries.push({
+              id: `fallback-${index}`,
+              title: `${fileName} Unit Tests`,
+              description: `Comprehensive unit tests for functions in ${fileName} including input validation, edge cases, and error handling`,
+              framework: "Jest",
+              complexity: "Medium",
+              estimatedTime: "20 min",
+            });
+          } else if (fileName.includes('api') || fileName.includes('service')) {
+            fallbackSummaries.push({
+              id: `fallback-${index}`,
+              title: `${fileName} API Tests`,
+              description: `Test API endpoints, request/response handling, and error scenarios in ${fileName}`,
+              framework: "Jest + Supertest",
+              complexity: "Medium",
+              estimatedTime: "25 min",
+            });
+          } else {
+            fallbackSummaries.push({
+              id: `fallback-${index}`,
+              title: `${fileName} Function Tests`,
+              description: `Unit tests for exported functions and modules in ${fileName}`,
+              framework: "Jest",
+              complexity: "Low",
+              estimatedTime: "15 min",
+            });
+          }
+        } else if (extension === 'tsx' || extension === 'jsx') {
+          fallbackSummaries.push({
+            id: `fallback-${index}`,
+            title: `${fileName} Component Tests`,
+            description: `React component tests for ${fileName} including rendering, props, and user interactions`,
+            framework: "Jest + React Testing Library",
+            complexity: "Medium",
+            estimatedTime: "20 min",
+          });
+        }
+      });
+
+      if (fallbackSummaries.length === 0) {
+        // Default fallback if no specific files match
+        fallbackSummaries.push({
+          id: "fallback-default",
+          title: "General Test Suite",
+          description: "Basic test cases for the selected files",
+          framework: "Jest",
           complexity: "Low",
           estimatedTime: "15 min",
-        },
-        {
-          id: "2",
-          title: "API Integration Tests",
-          description:
-            "Comprehensive tests for API calls, error handling, and data transformation",
-          framework: "Jest + MSW",
-          complexity: "Medium",
-          estimatedTime: "30 min",
-        },
-      ];
-      setTestSummaries(mockSummaries);
+        });
+      }
+
+      setTestSummaries(fallbackSummaries);
+      console.log('⚠️ Using fallback test summaries:', fallbackSummaries.length);
     } finally {
       setIsGenerating(false);
     }
