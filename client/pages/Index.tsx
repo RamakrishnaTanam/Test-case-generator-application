@@ -776,19 +776,31 @@ describe('${summary.title}', () => {
 
                       {/* Debug button - remove in production */}
                       <Button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.preventDefault();
+                          console.log('🔧 Debug button clicked!');
+
                           const debugSummaries: TestCaseSummary[] = [
                             {
                               id: "debug-1",
-                              title: "Validation Function Tests",
-                              description: "Test input validation functions, email validation, and data sanitization",
-                              framework: "Jest",
+                              title: "Flask App Tests",
+                              description: "Test Flask routes, models, and utility functions",
+                              framework: "PyTest",
                               complexity: "Medium",
-                              estimatedTime: "20 min",
+                              estimatedTime: "25 min",
+                            },
+                            {
+                              id: "debug-2",
+                              title: "API Endpoint Tests",
+                              description: "Test REST API endpoints, authentication, and error handling",
+                              framework: "PyTest + Flask-Testing",
+                              complexity: "High",
+                              estimatedTime: "35 min",
                             }
                           ];
+
                           setTestSummaries(debugSummaries);
-                          console.log('🔧 Debug: Set test summaries');
+                          console.log('🔧 Debug: Set test summaries', debugSummaries);
                         }}
                         variant="outline"
                         size="sm"
