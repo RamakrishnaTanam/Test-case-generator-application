@@ -94,18 +94,62 @@ export default function Index() {
     }
   };
 
-  const connectToGitHub = async () => {
-    try {
-      // In a real app, this would initiate OAuth flow
-      // For demo purposes, we simulate the connection
-      setIsConnected(true);
+  const connectToGitHub = () => {
+    // Show GitHub account selection dialog instead of immediately connecting
+    setShowGitHubDialog(true);
+  };
 
-      // Show success message
-      console.log("✅ Successfully connected to GitHub (Demo Mode)");
+  const handleGitHubConnection = async (username: string) => {
+    try {
+      setIsConnected(true);
+      setShowGitHubDialog(false);
+
+      // Update repositories based on selected user
+      const userRepos = generateUserRepositories(username);
+      setRepositories(userRepos);
+
+      console.log(`✅ Successfully connected to GitHub as ${username} (Demo Mode)`);
     } catch (error) {
       console.error("Failed to connect to GitHub:", error);
       alert("Failed to connect to GitHub. Please try again.");
     }
+  };
+
+  const generateUserRepositories = (username: string): GitHubRepo[] => {
+    return [
+      {
+        id: 1,
+        name: "my-react-app",
+        full_name: `${username}/my-react-app`,
+        description: "A modern React application with TypeScript",
+        language: "TypeScript",
+        private: false,
+      },
+      {
+        id: 2,
+        name: "api-service",
+        full_name: `${username}/api-service`,
+        description: "REST API built with Node.js",
+        language: "JavaScript",
+        private: false,
+      },
+      {
+        id: 3,
+        name: "mobile-app",
+        full_name: `${username}/mobile-app`,
+        description: "React Native mobile application",
+        language: "TypeScript",
+        private: true,
+      },
+      {
+        id: 4,
+        name: "data-pipeline",
+        full_name: `${username}/data-pipeline`,
+        description: "Python data processing pipeline",
+        language: "Python",
+        private: false,
+      },
+    ];
   };
 
   const selectRepository = async (repo: GitHubRepo) => {
