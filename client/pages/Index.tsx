@@ -74,12 +74,12 @@ export default function Index() {
   const [customUsername, setCustomUsername] = useState<string>("");
   const [connectedUsername, setConnectedUsername] = useState<string>("");
 
-  // Mock GitHub users for demo
+  // GitHub users for quick selection
   const mockGitHubUsers = [
-    { username: "john-doe", name: "John Doe", avatar: "🧑‍💻" },
-    { username: "jane-smith", name: "Jane Smith", avatar: "👩‍💻" },
-    { username: "dev-user", name: "Dev User", avatar: "🚀" },
-    { username: "code-ninja", name: "Code Ninja", avatar: "🥷" },
+    { username: "octocat", name: "The Octocat", avatar: "🐙" },
+    { username: "torvalds", name: "Linus Torvalds", avatar: "🐧" },
+    { username: "gaearon", name: "Dan Abramov", avatar: "⚛️" },
+    { username: "sindresorhus", name: "Sindre Sorhus", avatar: "🦄" },
   ];
 
   const connectToGitHub = () => {
