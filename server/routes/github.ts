@@ -167,8 +167,16 @@ export const handleGetFileContent: RequestHandler = async (req, res) => {
   const { owner, repo, path } = req.params;
   const authHeader = req.headers.authorization;
 
+  console.log(`📁 Fetching file content: ${owner}/${repo}/${path}`);
+
   if (!authHeader) {
+    console.warn("❌ No authorization header provided");
     return res.status(401).json({ error: "Authorization header required" });
+  }
+
+  if (!path) {
+    console.warn("❌ No file path provided");
+    return res.status(400).json({ error: "File path is required" });
   }
 
   try {
@@ -180,10 +188,13 @@ export const handleGetFileContent: RequestHandler = async (req, res) => {
     //   },
     // });
 
-    // Mock file content for demo
+    // Mock file content for demo - generate appropriate content based on file type
     let mockContent = "";
 
-    if (path?.includes("UserProfile.tsx")) {
+    const fileName = path.split("/").pop() || "";
+    const extension = fileName.split(".").pop()?.toLowerCase();
+
+    if (path.includes("UserProfile.tsx")) {
       mockContent = `import React from 'react';
 
 interface User {
@@ -210,6 +221,38 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user, onEdit }) => {
     </div>
   );
 };`;
+    } else if (extension === "tsx" || extension === "jsx") {
+      const componentName = fileName.replace(/\.(tsx|jsx)$/, "");
+      mockContent = `import React from 'react';
+
+interface ${componentName}Props {
+  // Define props here
+}
+
+export const ${componentName}: React.FC<${componentName}Props> = (props) => {
+  return (
+    <div className="${componentName.toLowerCase()}">
+      {/* Component content */}
+    </div>
+  );
+};
+
+export default ${componentName};`;
+    } else if (extension === "ts" || extension === "js") {
+      mockContent = `// ${fileName} - Utility functions and helpers
+
+export const sampleFunction = (input: any) => {
+  return input;
+};
+
+export const validateInput = (data: any): boolean => {
+  return data !== null && data !== undefined;
+};
+
+export default {
+  sampleFunction,
+  validateInput,
+};`;
     } else {
       mockContent = `// Mock content for ${path}
 export const mockFunction = () => {
@@ -217,15 +260,20 @@ export const mockFunction = () => {
 };`;
     }
 
+    console.log(`✅ Successfully generated mock content for ${path}`);
+
     res.json({
-      name: path?.split("/").pop(),
+      name: fileName,
       path: path,
       content: Buffer.from(mockContent).toString("base64"),
       encoding: "base64",
     });
   } catch (error) {
-    console.error("Failed to fetch file content:", error);
-    res.status(500).json({ error: "Failed to fetch file content" });
+    console.error(`❌ Failed to fetch file content for ${path}:`, error);
+    res.status(500).json({
+      error: "Failed to fetch file content",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
   }
 };
 
