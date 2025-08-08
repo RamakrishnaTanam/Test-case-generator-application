@@ -822,6 +822,94 @@ describe('${summary.title}', () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* GitHub Account Selection Dialog */}
+      <Dialog open={showGitHubDialog} onOpenChange={setShowGitHubDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Github className="h-5 w-5" />
+              Connect to GitHub
+            </DialogTitle>
+            <DialogDescription>
+              Choose a GitHub account to connect with TestGen AI
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <h4 className="text-sm font-medium">Available Accounts (Demo)</h4>
+              <div className="grid gap-2">
+                {mockGitHubUsers.map((user) => (
+                  <Button
+                    key={user.username}
+                    variant={selectedGitHubUser === user.username ? "default" : "outline"}
+                    className="justify-start h-auto p-3"
+                    onClick={() => setSelectedGitHubUser(user.username)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-lg">{user.avatar}</span>
+                      <div className="text-left">
+                        <div className="font-medium">{user.name}</div>
+                        <div className="text-sm text-muted-foreground">@{user.username}</div>
+                      </div>
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">Or</span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="custom-username" className="text-sm font-medium">
+                Enter GitHub Username
+              </label>
+              <Input
+                id="custom-username"
+                placeholder="Enter your GitHub username"
+                value={customUsername}
+                onChange={(e) => setCustomUsername(e.target.value)}
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setShowGitHubDialog(false)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  const username = customUsername || selectedGitHubUser;
+                  if (username) {
+                    handleGitHubConnection(username);
+                    setCustomUsername("");
+                    setSelectedGitHubUser("");
+                  }
+                }}
+                disabled={!customUsername && !selectedGitHubUser}
+                className="flex-1"
+              >
+                <Github className="mr-2 h-4 w-4" />
+                Connect
+              </Button>
+            </div>
+
+            <div className="text-xs text-center text-muted-foreground p-2 bg-muted/50 rounded">
+              🚀 Demo Mode: This simulates GitHub OAuth. In production, you'll be redirected to GitHub for authentication.
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
