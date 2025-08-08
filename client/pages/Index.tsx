@@ -73,6 +73,7 @@ export default function Index() {
   const [selectedGitHubUser, setSelectedGitHubUser] = useState<string>("");
   const [customUsername, setCustomUsername] = useState<string>("");
   const [connectedUsername, setConnectedUsername] = useState<string>("");
+  const [isLoadingRepos, setIsLoadingRepos] = useState(false);
 
   // GitHub users for quick selection
   const mockGitHubUsers = [
