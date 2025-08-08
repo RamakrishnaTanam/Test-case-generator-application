@@ -471,7 +471,7 @@ describe('${summary.title}', () => {
               <div className="flex items-center gap-2">
                 <Badge variant="secondary" className="gap-2">
                   <CheckCircle className="h-4 w-4" />
-                  GitHub Connected
+                  Connected as @{connectedUsername}
                 </Badge>
                 <Badge variant="outline" className="text-xs">
                   Demo Mode
