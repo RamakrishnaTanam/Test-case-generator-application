@@ -73,26 +73,13 @@ export default function Index() {
   const [selectedGitHubUser, setSelectedGitHubUser] = useState<string>("");
   const [customUsername, setCustomUsername] = useState<string>("");
 
-  // Initialize repositories on connection
-  useEffect(() => {
-    if (isConnected) {
-      fetchRepositories();
-    }
-  }, [isConnected]);
-
-  const fetchRepositories = async () => {
-    try {
-      const response = await fetch("/api/github/repositories", {
-        headers: {
-          Authorization: "Bearer mock_token",
-        },
-      });
-      const repos = await response.json();
-      setRepositories(repos);
-    } catch (error) {
-      console.error("Failed to fetch repositories:", error);
-    }
-  };
+  // Mock GitHub users for demo
+  const mockGitHubUsers = [
+    { username: "john-doe", name: "John Doe", avatar: "🧑‍💻" },
+    { username: "jane-smith", name: "Jane Smith", avatar: "👩‍💻" },
+    { username: "dev-user", name: "Dev User", avatar: "🚀" },
+    { username: "code-ninja", name: "Code Ninja", avatar: "🥷" },
+  ];
 
   const connectToGitHub = () => {
     // Show GitHub account selection dialog instead of immediately connecting
