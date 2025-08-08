@@ -424,10 +424,15 @@ describe('${summary.title}', () => {
               </div>
             </div>
             {isConnected && (
-              <Badge variant="secondary" className="gap-2">
-                <CheckCircle className="h-4 w-4" />
-                GitHub Connected
-              </Badge>
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary" className="gap-2">
+                  <CheckCircle className="h-4 w-4" />
+                  GitHub Connected
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  Demo Mode
+                </Badge>
+              </div>
             )}
           </div>
         </div>
