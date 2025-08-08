@@ -108,6 +108,7 @@ export default function Index() {
   };
 
   const fetchRealRepositories = async (username: string) => {
+    setIsLoadingRepos(true);
     try {
       const response = await fetch(`/api/github/repositories?username=${username}`, {
         headers: {
@@ -118,16 +119,20 @@ export default function Index() {
       if (response.ok) {
         const repos = await response.json();
         setRepositories(repos);
+        console.log(`✅ Loaded ${repos.length} repositories for ${username}`);
       } else {
         // Fallback to mock data if API fails
         const userRepos = generateUserRepositories(username);
         setRepositories(userRepos);
+        console.warn('⚠️ Using fallback repositories');
       }
     } catch (error) {
       console.error('Failed to fetch real repositories:', error);
       // Fallback to mock data
       const userRepos = generateUserRepositories(username);
       setRepositories(userRepos);
+    } finally {
+      setIsLoadingRepos(false);
     }
   };
 
