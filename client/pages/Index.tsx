@@ -316,6 +316,7 @@ export default function Index() {
       );
 
       // Generate test summaries using AI
+      console.log('📤 Sending files to AI service:', filesWithContent.length, 'files');
       const response = await fetch("/api/ai/generate-summaries", {
         method: "POST",
         headers: {
@@ -324,8 +325,19 @@ export default function Index() {
         body: JSON.stringify({ files: filesWithContent }),
       });
 
+      if (!response.ok) {
+        throw new Error(`AI service responded with ${response.status}: ${response.statusText}`);
+      }
+
       const data = await response.json();
-      setTestSummaries(data.summaries);
+      console.log('📥 Received AI response:', data);
+
+      if (data.summaries && Array.isArray(data.summaries)) {
+        setTestSummaries(data.summaries);
+        console.log('✅ Successfully set test summaries:', data.summaries.length);
+      } else {
+        throw new Error('Invalid response format from AI service');
+      }
     } catch (error) {
       console.error("Failed to generate test summaries:", error);
       // Fallback to mock data
