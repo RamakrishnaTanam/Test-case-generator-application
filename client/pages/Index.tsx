@@ -748,23 +748,48 @@ describe('${summary.title}', () => {
                       ))}
                     </div>
 
-                    <Button
-                      onClick={generateTestSummaries}
-                      disabled={selectedFiles.length === 0 || isGenerating}
-                      className="w-full"
-                    >
-                      {isGenerating ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Generating Test Cases...
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="mr-2 h-4 w-4" />
-                          Generate Test Case Summaries
-                        </>
-                      )}
-                    </Button>
+                    <div className="space-y-2">
+                      <Button
+                        onClick={generateTestSummaries}
+                        disabled={selectedFiles.length === 0 || isGenerating}
+                        className="w-full"
+                      >
+                        {isGenerating ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Generating Test Cases...
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="mr-2 h-4 w-4" />
+                            Generate Test Case Summaries
+                          </>
+                        )}
+                      </Button>
+
+                      {/* Debug button - remove in production */}
+                      <Button
+                        onClick={() => {
+                          const debugSummaries: TestCaseSummary[] = [
+                            {
+                              id: "debug-1",
+                              title: "Validation Function Tests",
+                              description: "Test input validation functions, email validation, and data sanitization",
+                              framework: "Jest",
+                              complexity: "Medium",
+                              estimatedTime: "20 min",
+                            }
+                          ];
+                          setTestSummaries(debugSummaries);
+                          console.log('🔧 Debug: Set test summaries');
+                        }}
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-xs"
+                      >
+                        🔧 Debug: Set Test Summaries
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
