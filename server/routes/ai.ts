@@ -22,11 +22,16 @@ interface GenerateTestCodeRequest {
 export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
   const { files } = req.body;
 
+  console.log('🤖 AI Service: Received request to generate test summaries');
+  console.log('📁 Files received:', files?.length || 0);
+
   if (!files || !Array.isArray(files) || files.length === 0) {
+    console.warn('❌ No files provided');
     return res.status(400).json({ error: "Files array is required" });
   }
 
   try {
+    console.log('⏳ Generating test summaries...');
     // Simulate AI processing time
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
