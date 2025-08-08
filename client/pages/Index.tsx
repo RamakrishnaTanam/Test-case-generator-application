@@ -72,6 +72,7 @@ export default function Index() {
   const [showGitHubDialog, setShowGitHubDialog] = useState(false);
   const [selectedGitHubUser, setSelectedGitHubUser] = useState<string>("");
   const [customUsername, setCustomUsername] = useState<string>("");
+  const [connectedUsername, setConnectedUsername] = useState<string>("");
 
   // Mock GitHub users for demo
   const mockGitHubUsers = [
