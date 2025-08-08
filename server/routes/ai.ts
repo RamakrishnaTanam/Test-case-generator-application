@@ -169,6 +169,52 @@ export const handleGenerateTestSummaries: RequestHandler = async (req, res) => {
       });
     }
 
+    if (hasPythonFiles || hasFlaskApp) {
+      summaries.push({
+        id: "python-unit-tests",
+        title: "Python Unit Tests",
+        description: "Unit tests for Python functions, classes, and modules with pytest",
+        framework: "PyTest",
+        complexity: "Medium",
+        estimatedTime: "20 min",
+        files: files.filter((f) => f.path.includes(".py")).map((f) => f.path),
+      });
+    }
+
+    if (hasFlaskApp) {
+      summaries.push({
+        id: "flask-app-tests",
+        title: "Flask Application Tests",
+        description: "Test Flask routes, endpoints, request/response handling, and middleware",
+        framework: "PyTest + Flask-Testing",
+        complexity: "High",
+        estimatedTime: "35 min",
+        files: files.filter((f) => f.path.includes("app.py") || f.path.includes("routes")).map((f) => f.path),
+      });
+
+      summaries.push({
+        id: "flask-api-tests",
+        title: "Flask API Integration Tests",
+        description: "Test REST API endpoints, JSON responses, authentication, and error handling",
+        framework: "PyTest + Requests",
+        complexity: "Medium",
+        estimatedTime: "30 min",
+        files: files.map((f) => f.path),
+      });
+    }
+
+    if (hasPythonModels) {
+      summaries.push({
+        id: "python-model-tests",
+        title: "Python Model Tests",
+        description: "Test Python classes, data models, validation logic, and business rules",
+        framework: "PyTest + Faker",
+        complexity: "Medium",
+        estimatedTime: "25 min",
+        files: files.filter((f) => f.path.includes("model") || f.path.includes("class")).map((f) => f.path),
+      });
+    }
+
     // Always include E2E if there are multiple components
     if (files.length > 3) {
       summaries.push({
