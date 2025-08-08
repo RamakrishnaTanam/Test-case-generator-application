@@ -597,7 +597,7 @@ describe('${summary.title}', () => {
                       Your Repositories
                     </CardTitle>
                     <CardDescription>
-                      Select a repository to analyze and generate test cases
+                      {connectedUsername ? `Showing repositories for @${connectedUsername}. ` : ''}Select a repository to analyze and generate test cases
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
